@@ -36,9 +36,25 @@ if(arrayProductos === null){
 }
 
 const EliminarDB =  (producto) => {
-
+let indexArray;
+    arrayProductos.forEach((element, index )=> {
+        
+       if(element.producto === producto ) {
+        indexArray =  index;
+       }
+       
+    });
+    arrayProductos.splice(indexArray, 1);
+    GuardarDB();
 }
 
+const EditarDB =  (producto) =>{
+
+    let indexArray = arrayProductos.findIndex((element)=>element.producto === producto );
+    console.log(arrayProductos[indexArray]);
+    arrayProductos[indexArray].precio = true;
+    GuardarDB();
+}
 
 formularioUI.addEventListener("submit" , (e) => {
     e.preventDefault();
@@ -55,12 +71,14 @@ listaProductosUI.addEventListener('click', (e) =>{
 e.preventDefault();
 
 if(e.target.innerHTML === 'price_check' || e.target.innerHTML === "delete_outline"){
-    console.log(e.path[2].childNodes[1].innerHTML);
+    let texto = e.path[2].childNodes[1].innerHTML;
     if(e.target.innerHTML === 'delete_outline'){
 
+        EliminarDB(texto);
     }
     if(e.target.innerHTML === 'price_check'){
 
+        EditarDB(texto);
     }
 }
 });
